@@ -1,0 +1,12 @@
+name: shiny
+title: shiny
+username:
+account: arnav-srivastava
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2176433
+bundleId: 3057766
+url: https://arnav-srivastava.shinyapps.io/shiny/
+when: 1587696764.6088
+asMultiple: FALSE
+asStatic: FALSE
