@@ -337,7 +337,7 @@ ui <- navbarPage("Global Health Spending",
                                                         science; I hope to concentrate in biomedical engineering, electrical engineering, or 
                                                          statistics, and help advance the health of our global community. The work for my project 
                                                         can be found on my GitHub repo at ", 
-                                                       a(href = "https://github.com/arnavinator/gov1005-final_project", "here."))
+                                                       a(href = "https://github.com/arnavinator/global_health_spending_trends", "here."))
                           ))
                  ),
                  
@@ -779,10 +779,11 @@ server <- function(input, output, session) {
     output$capita_health_deaths <- renderImage({
         outfile <- tempfile(fileext='.gif')
         
-        p = spend_death %>% 
+        p = spend_death_cap %>% 
             filter(age == "All Ages") %>% 
             filter(sex == "Both") %>% 
-            ggplot(aes(x = the_per_cap_mean, y = val)) +
+            mutate(death_cap = val/pop) %>% 
+            ggplot(aes(x = the_per_cap_mean, y = death_cap)) +
             geom_point(color = "red") +
             scale_x_log10() +
             scale_y_log10() +
@@ -791,8 +792,9 @@ server <- function(input, output, session) {
             transition_manual(factor(income_group, levels = c("Low income", "Lower middle income", 
                                                               "Upper middle income", "High income"))) +
             labs(title = "Health Spending per Capita versus\n Deaths by Income Group: {current_frame}",
+                 subtitle = "Data for 195 countries for years 2005, 2010, and 2015",
                  x = "Total Health Spending per Capita (2018 USD)",
-                 y = "Total Deaths from Disease")
+                 y = "Total Deaths from Disease per Capita")
         
         anim_save("outfile.gif", animate(p))
         
